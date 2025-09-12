@@ -1,0 +1,164 @@
+/* Layout */
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 220px;
+  background: #fca625;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.admin-sidebar h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #fff;
+}
+
+.admin-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-nav li {
+  margin: 15px 0;
+}
+
+.admin-nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.admin-nav a:hover,
+.admin-nav a.active {
+  background: #34495e;
+  color: #fff;
+}
+
+/* Main section */
+.admin-main {
+  flex: 1;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.admin-navbar {
+  background: #fff;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Content */
+.admin-content {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+/* Title */
+.admin-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Form */
+.admin-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.admin-input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex: 1;
+  transition: 0.2s;
+}
+
+.admin-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(255, 174, 0, 0.3);
+  outline: none;
+}
+
+.admin-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.admin-btn-add {
+  background-color: orange;
+  color: #fff;
+}
+
+.admin-btn-add:hover {
+  background-color: #0056b3;
+}
+
+.admin-btn-delete {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.admin-btn-delete:hover {
+  background-color: #c0392b;
+}
+
+/* Table */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-table th {
+  background-color: #f4f6f8;
+  color: #333;
+  font-weight: bold;
+}
+
+.admin-table tr:hover {
+  background-color: #f9f9f9;
+  transition: 0.2s ease-in-out;
+}
+
+.admin-table td {
+  color: #555;
+}
