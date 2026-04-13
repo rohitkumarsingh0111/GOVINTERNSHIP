@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import db from "../config/db.js";
+
 const router = express.Router();
-const db = require("../db");
 
 // Get all jobs
 router.get("/jobs", (req, res) => {
@@ -10,9 +11,10 @@ router.get("/jobs", (req, res) => {
   });
 });
 
-// Add new job
+// Add job
 router.post("/jobs", (req, res) => {
   const { title, company, skills, location, remote, duration, description } = req.body;
+
   db.run(
     `INSERT INTO jobs (title, company, skills, location, remote, duration, description) 
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -32,4 +34,4 @@ router.delete("/jobs/:id", (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

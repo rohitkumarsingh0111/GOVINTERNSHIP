@@ -1,6 +1,9 @@
-const router = require("express").Router();
-const axios = require("axios");
+import express from "express";
+import axios from "axios";
 
+const router = express.Router();
+
+// CALL ML SERVICE
 router.post("/", async (req, res) => {
   const { skills } = req.body;
 
@@ -17,4 +20,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

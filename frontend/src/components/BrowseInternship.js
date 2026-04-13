@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./BrowseInternship.css";
 
 const BrowseInternships = () => {
-  const navigate = useNavigate();
-  const [profileImage, setProfileImage] = useState(null);
   const [userSkills, setUserSkills] = useState([]);
 
-  // Load profile image and user skills from localStorage on component mount
+  // Load user skills from localStorage
   useEffect(() => {
-    const savedProfileImage = localStorage.getItem('profileImage');
-    if (savedProfileImage) {
-      setProfileImage(savedProfileImage);
-    }
+    const savedProfileData = localStorage.getItem("profileData");
 
-    // Load user skills from profile data
-    const savedProfileData = localStorage.getItem('profileData');
     if (savedProfileData) {
       try {
         const parsedData = JSON.parse(savedProfileData);
@@ -23,55 +16,28 @@ const BrowseInternships = () => {
           setUserSkills(parsedData.skills);
         }
       } catch (error) {
-        console.error('Error parsing profile data:', error);
+        console.error("Error parsing profile data:", error);
       }
     }
   }, []);
 
-  // Function to check which skills are missing for an internship
+  // Check missing skills
   const getMissingSkills = (internshipSkills) => {
-    const userSkillsLower = userSkills.map(skill => skill.toLowerCase());
-    const internshipSkillsLower = internshipSkills.map(skill => {
-      const cleanSkill = skill.replace(/\+[0-9]+\s*more/, '').trim().toLowerCase();
-      return cleanSkill;
-    });
-    
-    const missingSkills = internshipSkillsLower.filter(skill => 
-      !userSkillsLower.includes(skill) && skill !== '' && !skill.includes('more')
+    const userSkillsLower = userSkills.map((skill) => skill.toLowerCase());
+
+    return internshipSkills.filter(
+      (skill) => !userSkillsLower.includes(skill.toLowerCase())
     );
-    
-    return missingSkills;
   };
 
-  // Function to check if user has a specific skill
+  // Check if user has skill
   const hasSkill = (skill) => {
-    const cleanSkill = skill.replace(/\+[0-9]+\s*more/, '').trim().toLowerCase();
-    return userSkills.some(userSkill => 
-      userSkill.toLowerCase() === cleanSkill
+    return userSkills.some(
+      (userSkill) => userSkill.toLowerCase() === skill.toLowerCase()
     );
   };
 
-  const handleDashboard = () => {
-    navigate('/dashboard');
-  };
-
-  const handleProfileNavigation = () => {
-    navigate('/profile');
-  };
-
-  // Function to get user initials for profile icon
-  const getInitials = () => {
-    const userName = localStorage.getItem('userName');
-    if (userName) {
-      const names = userName.split(' ');
-      if (names.length > 1) {
-        return `${names[0].charAt(0)}${names[1].charAt(0)}`.toUpperCase();
-      }
-      return names[0].charAt(0).toUpperCase();
-    }
-    return "👤";
-  };
-
+  // Dummy data
   const allInternships = [
     {
       id: 1,
@@ -154,187 +120,96 @@ const BrowseInternships = () => {
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredInternships, setFilteredInternships] = useState(allInternships);
+  const [filteredInternships, setFilteredInternships] =
+    useState(allInternships);
 
+  // Search logic
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    
-    if (term === "") {
-      setFilteredInternships(allInternships);
-    } else {
-      const filtered = allInternships.filter(internship => 
-        internship.title.toLowerCase().includes(term) ||
-        internship.company.toLowerCase().includes(term) ||
-        internship.skills.some(skill => skill.toLowerCase().includes(term)) ||
-        internship.location.toLowerCase().includes(term) ||
-        internship.type.toLowerCase().includes(term)
-      );
-      setFilteredInternships(filtered);
-    }
-  };
 
-  const handleNavSearch = (e) => {
-    const term = e.target.value.toLowerCase();
-    
-    if (term === "") {
+    if (!term) {
       setFilteredInternships(allInternships);
     } else {
-      const filtered = allInternships.filter(internship => 
+      const filtered = allInternships.filter((internship) =>
         internship.title.toLowerCase().includes(term) ||
         internship.company.toLowerCase().includes(term) ||
-        internship.skills.some(skill => skill.toLowerCase().includes(term)) ||
-        internship.location.toLowerCase().includes(term) ||
-        internship.type.toLowerCase().includes(term)
+        internship.skills.some((skill) =>
+          skill.toLowerCase().includes(term)
+        )
       );
+
       setFilteredInternships(filtered);
     }
   };
 
   return (
     <div className="browse-container">
-      {/* Top Navigation Bar
-      <header className="dashboard-top-nav">
-        <div className="nav-left">
-          <h1>DISHAA</h1>
-        </div>
-        
-        <div className="nav-center">
-          <div className="search-bar">
-            <input 
-              type="text" 
-              placeholder="Search internships..." 
-              onChange={handleNavSearch}
-            />
-            <span className="search-icon">🔍</span>
-          </div>
-        </div>
-        
-        <div className="nav-right">
-          <nav className="nav-links">
-            <a href="#" className="nav-link" onClick={handleDashboard}>Dashboard</a>
-            <a href="#" className="nav-link active">Browse Internships</a>
-            <a href="#" className="nav-link" onClick={handleProfileNavigation}>Profile</a>
-          </nav>
-          <div className="nav-icons">
-            <button className="icon-btn">🔔</button>
-            <div className="profile-icon" onClick={handleProfileNavigation} style={{cursor: 'pointer'}}>
-              {profileImage ? (
-                <img src={profileImage} alt="Profile" className="profile-icon-image" />
-              ) : (
-                <span className="profile-icon-initials">{getInitials()}</span>
-              )}
-            </div>
-          </div>
-        </div>
-      </header> */}
-
-      {/* Main Content - Left Aligned */}
       <div className="browse-content-left">
-        {/* Page Title - Left Aligned */}
+
+        {/* TITLE */}
         <div className="page-title-left">
           <h2>Browse Internships</h2>
-          <p>Discover hundreds of internship opportunities across India</p>
+          <p>Discover opportunities across India</p>
+
           {userSkills.length > 0 && (
-            <div className="user-skills-info">
-              <p>Your skills: <strong>{userSkills.join(', ')}</strong></p>
-            </div>
+            <p><strong>Your skills:</strong> {userSkills.join(", ")}</p>
           )}
         </div>
 
-        {/* Search Bar - Left Aligned */}
+        {/* SEARCH */}
         <div className="search-section-left">
           <input
             type="text"
-            placeholder="Search by title, company, or skills..."
+            placeholder="Search internships..."
             value={searchTerm}
             onChange={handleSearch}
             className="search-input-left"
           />
         </div>
 
-        {/* Results Count - Left Aligned */}
+        {/* RESULTS */}
         <div className="results-info-left">
           <h3>{filteredInternships.length} Internships Found</h3>
-          <p>Showing {searchTerm ? "filtered" : "all available"} opportunities</p>
         </div>
 
-        {/* Internships List - Left Aligned */}
+        {/* LIST */}
         <div className="internships-list-left">
           {filteredInternships.length === 0 ? (
-            <div className="no-results">
-              <h3>No internships found</h3>
-              <p>Try adjusting your search criteria</p>
-            </div>
+            <p>No results found</p>
           ) : (
-            filteredInternships.map(internship => {
+            filteredInternships.map((internship) => {
               const missingSkills = getMissingSkills(internship.skills);
-              
+
               return (
                 <div key={internship.id} className="internship-item-left">
-                  <div className="internship-header-left">
-                    <h3 className="internship-title-left">{internship.title} <span className="match-badge-left">{internship.match}% Match</span></h3>
+                  <h3>
+                    {internship.title}{" "}
+                    <span>{internship.match}% Match</span>
+                  </h3>
+
+                  <p>{internship.company}</p>
+                  <p>{internship.location}</p>
+                  <p>{internship.description}</p>
+
+                  {/* SKILLS */}
+                  <div>
+                    {internship.skills.map((skill, i) => (
+                      <span key={i}>
+                        {skill} {hasSkill(skill) ? "✓" : "✗"}
+                      </span>
+                    ))}
                   </div>
-                  
-                  <h4 className="company-name-left">{internship.company}</h4>
-                  
-                  <div className="internship-details-left">
-                    <div className="detail-left">
-                      <span className="icon-left">📍</span>
-                      <span>{internship.location}</span>
-                    </div>
-                    <div className="detail-left">
-                      <span className="icon-left">⏰</span>
-                      <span>{internship.duration}</span>
-                    </div>
-                    <div className="detail-left">
-                      <span className="icon-left">📅</span>
-                      <span>Apply by {internship.applyBy}</span>
-                    </div>
-                  </div>
-                  
-                  <p className="description-left">{internship.description}</p>
-                  
-                  <div className="job-info-left">
-                    <span className="job-type-left">{internship.type}</span>
-                    <span className="salary-left">{internship.salary}</span>
-                  </div>
-                  
-                  <div className="skills-container-left">
-                    <div className="skills-header-left">
-                      <strong>Required Skills:</strong>
-                    </div>
-                    {internship.skills.map((skill, index) => {
-                      const hasThisSkill = hasSkill(skill);
-                      
-                      return (
-                        <span 
-                          key={index} 
-                          className={`skill-tag-left ${hasThisSkill ? 'skill-present' : 'skill-missing'}`}
-                          title={hasThisSkill ? "You have this skill" : "You don't have this skill"}
-                        >
-                          {skill}
-                          {hasThisSkill ? ' ✓' : ' ✗'}
-                        </span>
-                      );
-                    })}
-                  </div>
-                  
-                  {/* Missing Skills Warning */}
+
+                  {/* MISSING */}
                   {missingSkills.length > 0 && (
-                    <div className="missing-skills-warning">
-                      <p className="warning-text">
-                        <strong>Skills you're missing:</strong> {missingSkills.join(', ')}
-                      </p>
-                      <p className="suggestion-text">
-                        Add these skills to your profile to improve your chances!
-                      </p>
-                    </div>
+                    <p>Missing: {missingSkills.join(", ")}</p>
                   )}
-                  
-                  <div className="action-buttons-left">
-                    <button className="apply-button-left">Apply Now</button>
-                    <button className="view-button-left">View Details</button>
+
+                  {/* BUTTONS */}
+                  <div>
+                    <button>Apply</button>
+                    <button>View</button>
                   </div>
                 </div>
               );
@@ -342,32 +217,13 @@ const BrowseInternships = () => {
           )}
         </div>
 
-        {/* Load More Section - Left Aligned */}
-        <div className="load-more-section-left">
-          <button className="load-more-btn-left">Load More Internships</button>
-          <p className="load-more-text-left">Showing {filteredInternships.length} of 156 internships</p>
-        </div>
-
-        {/* Stats Section - Left Aligned */}
-        <div className="stats-section-left">
-          <div className="stat-left">
-            <strong>500+</strong>
-            <p>Active Internships</p>
-          </div>
-          <div className="stat-left">
-            <strong>50+</strong>
-            <p>Cities Covered</p>
-          </div>
-          <div className="stat-left">
-            <strong>24/7</strong>
-            <p>Platform Support</p>
-          </div>
-        </div>
-
-        {/* Start Your Journey Button - Left Aligned */}
+        {/* CTA */}
         <div className="start-journey-section-left">
-          <Link to="/browseinternship" className="start-btn">Start Your Journey →</Link>
+          <Link to="/dashboard" className="start-btn">
+            Go to Dashboard →
+          </Link>
         </div>
+
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { saveProfile, getProfile } from "../services/api";
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -130,49 +131,78 @@ const Profile = () => {
 
   // Load profile data from localStorage on component mount
   useEffect(() => {
-    const savedProfileImage = localStorage.getItem('profileImage');
+  const loadProfile = async () => {
+    try {
+      const dbProfile = await getProfile();
+
+      if (dbProfile && dbProfile._id) {
+        setProfileData(dbProfile);
+
+        if (dbProfile.resume && dbProfile.resume.data) {
+          const blob = new Blob(
+            [new Uint8Array(dbProfile.resume.data)],
+            { type: dbProfile.resume.type }
+          );
+          const url = URL.createObjectURL(blob);
+          setResumeUrl(url);
+        }
+
+        if (dbProfile.profileImage) {
+          setProfileImage(dbProfile.profileImage);
+          setPhotoPreview(dbProfile.profileImage);
+        }
+
+        return; // ✅ if DB exists → skip localStorage
+      }
+    } catch (err) {
+      console.log("DB not loaded, using localStorage");
+    }
+
+    // 🔁 FALLBACK (YOUR ORIGINAL CODE)
+    const savedProfileImage = localStorage.getItem("profileImage");
     if (savedProfileImage) {
       setProfileImage(savedProfileImage);
       setPhotoPreview(savedProfileImage);
     }
 
-    const savedProfileData = localStorage.getItem('profileData');
+    const savedProfileData = localStorage.getItem("profileData");
     if (savedProfileData) {
       try {
         const parsedData = JSON.parse(savedProfileData);
         setProfileData(parsedData);
-        
-        // Check if resume data exists and create URL for viewing
+
         if (parsedData.resume && parsedData.resume.data) {
-          const blob = new Blob([new Uint8Array(parsedData.resume.data)], { type: parsedData.resume.type });
+          const blob = new Blob(
+            [new Uint8Array(parsedData.resume.data)],
+            { type: parsedData.resume.type }
+          );
           const url = URL.createObjectURL(blob);
           setResumeUrl(url);
         }
       } catch (error) {
-        console.error('Error parsing profile data:', error);
+        console.error("Error parsing profile data:", error);
       }
     }
 
-    const savedAchievements = localStorage.getItem('achievements');
+    const savedAchievements = localStorage.getItem("achievements");
     if (savedAchievements) {
       try {
-        const parsedAchievements = JSON.parse(savedAchievements);
-        setAchievements(parsedAchievements);
-      } catch (error) {
-        console.error('Error parsing achievements:', error);
-      }
+        setAchievements(JSON.parse(savedAchievements));
+      } catch {}
     }
 
-    const savedCompletion = localStorage.getItem('profileCompletion');
+    const savedCompletion = localStorage.getItem("profileCompletion");
     if (savedCompletion) {
       setProfileCompletion(parseInt(savedCompletion));
     }
 
-    // Store user name in localStorage for other components to access
     if (user?.name) {
-      localStorage.setItem('userName', user.name);
+      localStorage.setItem("userName", user.name);
     }
-  }, [user]);
+  };
+
+  loadProfile();
+}, [user]);
 
   // Calculate profile completion and achievements whenever profileData changes
   useEffect(() => {
@@ -343,10 +373,25 @@ const Profile = () => {
     }
   };
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
+  try {
+    // ✅ Save to backend
+    await saveProfile({
+      ...profileData,
+      profileImage
+    });
+
+    // ✅ Keep your existing localStorage logic (NOT REMOVED)
+    localStorage.setItem("profileData", JSON.stringify(profileData));
+    localStorage.setItem("profileImage", profileImage);
+
     setIsEditing(false);
-    alert("Profile saved successfully!");
-  };
+    alert("Profile saved successfully ✅ (DB + Local)");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to save profile");
+  }
+};
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -399,39 +444,7 @@ const Profile = () => {
   return (
     <div className="profile-container">
       {/* Top Navigation Bar */}
-      {/* <header className="dashboard-top-nav">
-        <div className="nav-left">
-          <h1>DISHAA</h1>
-        </div>
-        
-        <div className="nav-center">
-          <div className="search-bar">
-            <input type="text" placeholder="Search internships..." />
-            <span className="search-icon">🔍</span>
-          </div>
-        </div>
-        
-        <div className="nav-right">
-          <nav className="nav-links">
-            <a href="#" className="nav-link" onClick={handleDashboardNavigation}>Dashboard</a>
-            <a href="#" className="nav-link" onClick={handleBrowseInternshipsNavigation}>Browse Internships</a>
-            <a href="#" className="nav-link active">My Profile</a>
-            <a href="#" className="nav-link" onClick={(e) => { e.preventDefault(); setShowFeedback(!showFeedback); }}>
-              Feedback
-            </a>
-          </nav>
-          <div className="nav-icons">
-            <button className="icon-btn">🔔</button>
-            <div className="profile-icon">
-              {profileImage ? (
-                <img src={profileImage} alt="Profile" className="profile-icon-image" />
-              ) : (
-                <span className="profile-icon-initials">{getInitials()}</span>
-              )}
-            </div>
-          </div>
-        </div>
-      </header> */}
+      
 
       {/* Feedback Section */}
       {showFeedback && (

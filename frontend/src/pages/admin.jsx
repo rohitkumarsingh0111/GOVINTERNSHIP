@@ -1,108 +1,37 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import "./admin.css";
+import { useState } from "react";
 
 export default function Admin() {
-  const [jobs, setJobs] = useState([]);
-  const [newJob, setNewJob] = useState({ title: "", company: "", skills: "" });
+  const [form, setForm] = useState({
+    title: "",
+    company: "",
+    location: "",
+    skills: ""
+  });
 
-  const fetchJobs = async () => {
-    const res = await axios.get("http://localhost:4000/api/admin/jobs");
-    setJobs(res.data);
+  const handleSubmit = async () => {
+    await fetch("http://localhost:5002/api/admin/add-job", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(form)
+    });
+
+    alert("Internship Added ✅");
   };
-
-  const addJob = async () => {
-    await axios.post("http://localhost:4000/api/admin/jobs", newJob);
-    setNewJob({ title: "", company: "", skills: "" });
-    fetchJobs();
-  };
-
-  const deleteJob = async (id) => {
-    await axios.delete(`http://localhost:4000/api/admin/jobs/${id}`);
-    fetchJobs();
-  };
-
-  useEffect(() => { fetchJobs(); }, []);
 
   return (
-    <div className="admin-dashboard">
-      
-      {/* Sidebar */}
-      <aside className="admin-sidebar">
-        <h2>Admin Panel</h2>
-        <ul className="admin-nav">
-          <li><a href="#" className="active">📋 Jobs</a></li>
-          <li><a href="#">👥 Users</a></li>
-          <li><a href="#">📊 Reports</a></li>
-          <li><a href="#">⚙️ Settings</a></li>
-        </ul>
-      </aside>
+    <div style={{ padding: "40px" }}>
+      <h2>Add Internship</h2>
 
-      {/* Main content */}
-      <div className="admin-main">
-        <header className="admin-navbar">Internship Dashboard</header>
+      <input placeholder="Title" onChange={(e)=>setForm({...form,title:e.target.value})}/>
+      <input placeholder="Company" onChange={(e)=>setForm({...form,company:e.target.value})}/>
+      <input placeholder="Location" onChange={(e)=>setForm({...form,location:e.target.value})}/>
+      <input placeholder="Skills" onChange={(e)=>setForm({...form,skills:e.target.value})}/>
 
-        <div className="admin-content">
-          <h1 className="admin-title">Manage Jobs</h1>
-
-          {/* Add Job Form */}
-          <div className="admin-form">
-            <input
-              placeholder="Job Title"
-              value={newJob.title}
-              onChange={(e) => setNewJob({ ...newJob, title: e.target.value })}
-              className="admin-input"
-            />
-            <input
-              placeholder="Company"
-              value={newJob.company}
-              onChange={(e) => setNewJob({ ...newJob, company: e.target.value })}
-              className="admin-input"
-            />
-            <input
-              placeholder="Skills (comma-separated)"
-              value={newJob.skills}
-              onChange={(e) => setNewJob({ ...newJob, skills: e.target.value })}
-              className="admin-input"
-            />
-            <button onClick={addJob} className="admin-btn admin-btn-add">
-              ➕ Add Job
-            </button>
-          </div>
-
-          {/* Jobs Table */}
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Job Title</th>
-                <th>Company</th>
-                <th>Skills</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {jobs.map((job) => (
-                <tr key={job.id}>
-                  <td>{job.id}</td>
-                  <td>{job.title}</td>
-                  <td>{job.company}</td>
-                  <td>{job.skills}</td>
-                  <td>
-                    <button
-                      onClick={() => deleteJob(job.id)}
-                      className="admin-btn admin-btn-delete"
-                    >
-                      🗑 Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-        </div>
-      </div>
+      <button onClick={handleSubmit}>Add</button>
     </div>
   );
 }
+
+
