@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-GOVINTERNSHIP
-=======
+
 # 🚀 DISHAA – AI-Powered Internship Recommendation Platform
 
 DISHAA is a full-stack web application that helps students discover the most relevant internships using AI-based recommendations. It analyzes user skills and preferences to suggest personalized opportunities.
