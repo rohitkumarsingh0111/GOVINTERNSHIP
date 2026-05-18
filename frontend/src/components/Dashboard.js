@@ -7,16 +7,11 @@ import "./Dashboard.css";
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [profileCompletion, setProfileCompletion] = useState(0);
-  const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
     const savedCompletion = localStorage.getItem('profileCompletion');
     if (savedCompletion) {
       setProfileCompletion(parseInt(savedCompletion));
-    }
-    const savedProfileImage = localStorage.getItem('profileImage');
-    if (savedProfileImage) {
-      setProfileImage(savedProfileImage);
     }
   }, []);
 
@@ -25,63 +20,9 @@ import "./Dashboard.css";
     navigate('/browseinternship');
   };
 
-  const handleProfileNavigation = (e) => {
-    e.preventDefault();
-    navigate('/profile');
-  };
-
-  const handleDashboardNavigation = (e) => {
-    e.preventDefault();
-    navigate('/dashboard');
-  };
-
-  const getInitials = () => {
-    if (user?.name) {
-      const names = user.name.split(' ');
-      if (names.length > 1) {
-        return `${names[0].charAt(0)}${names[1].charAt(0)}`.toUpperCase();
-      }
-      return names[0].charAt(0).toUpperCase();
-    }
-    return "👤";
-  };
-
   return (
     <div className="dashboard-container">
-      {/* Top Navigation Bar */}
-      {/* <header className="dashboard-top-nav">
-        <div className="nav-left">
-          <img
-                src="logo-removebg-preview.png"
-                alt="Uttarakhand Logo"
-                className="state-logo"
-              />
-        </div>
-        <div className="nav-center">
-          <div className="search-bar">
-            <input type="text" placeholder="Search internships..." />
-            <span className="search-icon">🔍</span>
-          </div>
-        </div>
-        <div className="nav-right">
-          <nav className="nav-links">
-            <button className="nav-link active" onClick={handleDashboardNavigation}>Dashboard</button>
-            <button className="nav-link" onClick={handleBrowseInternships}>Browse Internships</button>
-            <button className="nav-link" onClick={handleProfileNavigation}>Profile</button>
-          </nav>
-          <div className="nav-icons">
-            <button className="icon-btn">🔔</button>
-            <div className="profile-icon" onClick={handleProfileNavigation} style={{cursor: 'pointer'}}>
-              {profileImage ? (
-                <img src={profileImage} alt="Profile" className="profile-icon-image" />
-              ) : (
-                <span className="profile-icon-initials">{getInitials()}</span>
-              )}
-            </div>
-          </div>
-        </div>
-      </header> */}
-
+    
       {/* Main Content */}
       <div className="dashboard-content">
         {/* Welcome Section */}

@@ -9,7 +9,7 @@ export default function Admin() {
   });
 
   const handleSubmit = async () => {
-    await fetch("http://localhost:5002/api/admin/add-job", {
+    await fetch("https://govinternship.onrender.com/api/admin/add-job", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -1,7 +1,5 @@
 const API = process.env.REACT_APP_API_URL;
 
-// 🔐 AUTH
-
 export const registerUser = async (data) => {
   const res = await fetch(`${API}/api/auth/register`, {
     method: "POST",
