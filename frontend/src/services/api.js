@@ -1,4 +1,4 @@
-const API = "http://localhost:5002";
+const API = process.env.REACT_APP_API_URL;
 
 // 🔐 AUTH
 
