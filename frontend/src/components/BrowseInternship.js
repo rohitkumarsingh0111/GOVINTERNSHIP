@@ -1,164 +1,228 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Papa from "papaparse";
 import "./BrowseInternship.css";
 
 const BrowseInternships = () => {
-  const [userSkills, setUserSkills] = useState([]);
 
-  // Load user skills from localStorage
+  const [userSkills, setUserSkills] =
+    useState([]);
+
+  const [searchTerm, setSearchTerm] =
+    useState("");
+
+  const [visibleCount, setVisibleCount] =
+    useState(6);
+
+  const [allInternships, setAllInternships] =
+    useState([]);
+
+  const [
+    filteredInternships,
+    setFilteredInternships
+  ] = useState([]);
+
+  /* LOAD USER SKILLS */
   useEffect(() => {
-    const savedProfileData = localStorage.getItem("profileData");
+
+    const savedProfileData =
+      localStorage.getItem("profileData");
 
     if (savedProfileData) {
+
       try {
-        const parsedData = JSON.parse(savedProfileData);
+
+        const parsedData =
+          JSON.parse(savedProfileData);
+
         if (parsedData.skills) {
           setUserSkills(parsedData.skills);
         }
+
       } catch (error) {
-        console.error("Error parsing profile data:", error);
+
+        console.error(
+          "Error parsing profile data:",
+          error
+        );
+
       }
     }
+
   }, []);
 
-  // Check missing skills
-  const getMissingSkills = (internshipSkills) => {
-    const userSkillsLower = userSkills.map((skill) => skill.toLowerCase());
+  /* LOAD CSV */
+  useEffect(() => {
+
+    Papa.parse("/data/sampledata.csv", {
+
+      download: true,
+
+      header: true,
+
+      skipEmptyLines: true,
+
+      complete: (results) => {
+
+        const formattedData =
+          results.data.map((item, index) => ({
+
+            id: item.id || index + 1,
+
+            title:
+              item.title || "Internship",
+
+            company:
+              item.company || "Company",
+
+            location:
+              item.location || "India",
+
+            description:
+              item.description ||
+              "No description available",
+
+            duration:
+              item.duration || "3 Months",
+
+            applyBy:
+              item.applyBy || "Open",
+
+            type:
+              item.type || "Full-time",
+
+            salary:
+              item.salary ||
+              "₹15,000/month",
+
+            match:
+              Math.floor(
+                Math.random() * 20
+              ) + 80,
+
+            skills:
+              item.required_skills
+                ? item.required_skills
+                    .split(",")
+                    .map(skill =>
+                      skill.trim()
+                    )
+                : [],
+
+          }));
+
+        setAllInternships(formattedData);
+
+        setFilteredInternships(
+          formattedData
+        );
+
+      },
+
+    });
+
+  }, []);
+
+  /* MISSING SKILLS */
+  const getMissingSkills = (
+    internshipSkills
+  ) => {
+
+    const userSkillsLower =
+      userSkills.map(skill =>
+        skill.toLowerCase()
+      );
 
     return internshipSkills.filter(
-      (skill) => !userSkillsLower.includes(skill.toLowerCase())
+      skill =>
+        !userSkillsLower.includes(
+          skill.toLowerCase()
+        )
     );
   };
 
-  // Check if user has skill
+  /* USER HAS SKILL */
   const hasSkill = (skill) => {
+
     return userSkills.some(
-      (userSkill) => userSkill.toLowerCase() === skill.toLowerCase()
+      userSkill =>
+        userSkill.toLowerCase() ===
+        skill.toLowerCase()
     );
   };
 
-  // Dummy data
-  const allInternships = [
-    {
-      id: 1,
-      title: "Frontend Developer Intern",
-      match: 95,
-      company: "Tech Solutions Ltd.",
-      location: "Mumbai, Maharashtra",
-      duration: "3 months",
-      applyBy: "Dec 15, 2024",
-      description: "Join our dynamic team to build modern web applications using React and latest frontend technologies. Perfect for students looking to gain hands-on experience in a fast-paced environment.",
-      type: "Full-time",
-      salary: "₹15,000/month",
-      skills: ["React", "JavaScript", "CSS", "HTML"]
-    },
-    {
-      id: 2,
-      title: "Data Science Intern",
-      match: 88,
-      company: "Analytics Pro",
-      location: "Bangalore, Karnataka",
-      duration: "6 months",
-      applyBy: "Dec 20, 2024",
-      description: "Work on real-world data science projects and contribute to AI-driven solutions for enterprise clients. Great opportunity to work with cutting-edge technologies.",
-      type: "Remote",
-      salary: "₹20,000/month",
-      skills: ["Python", "Machine Learning", "SQL", "Data Analysis"]
-    },
-    {
-      id: 3,
-      title: "Digital Marketing Intern",
-      match: 82,
-      company: "Creative Agency Inc.",
-      location: "Delhi, Delhi",
-      duration: "4 months",
-      applyBy: "Dec 25, 2024",
-      description: "Learn digital marketing strategies and execute campaigns for leading brands in various industries. Perfect for creative minds with business acumen.",
-      type: "Part-time",
-      salary: "₹12,000/month",
-      skills: ["Social Media", "Content Writing", "SEO", "Google Analytics"]
-    },
-    {
-      id: 4,
-      title: "Mobile App Developer Intern",
-      match: 91,
-      company: "InnovateTech",
-      location: "Hyderabad, Telangana",
-      duration: "5 months",
-      applyBy: "Dec 18, 2024",
-      description: "Develop cross-platform mobile applications for startups and established companies. Great opportunity to work on user-facing products.",
-      type: "Full-time",
-      salary: "₹18,000/month",
-      skills: ["React Native", "Flutter", "JavaScript", "Mobile Development"]
-    },
-    {
-      id: 5,
-      title: "Content Writing Intern",
-      match: 75,
-      company: "Media House",
-      location: "Chennai, Tamil Nadu",
-      duration: "3 months",
-      applyBy: "Dec 22, 2024",
-      description: "Create engaging content for blogs, social media, and marketing campaigns. Perfect for students passionate about storytelling and communication.",
-      type: "Part-time",
-      salary: "₹10,000/month",
-      skills: ["Writing", "Research", "SEO", "Content Strategy"]
-    },
-    {
-      id: 6,
-      title: "UI/UX Design Intern",
-      match: 87,
-      company: "Design Studio",
-      location: "Pune, Maharashtra",
-      duration: "4 months",
-      applyBy: "Dec 28, 2024",
-      description: "Design beautiful and functional user interfaces for web and mobile applications. Work closely with product teams to create amazing user experiences.",
-      type: "Full-time",
-      salary: "₹16,000/month",
-      skills: ["Figma", "Adobe XD", "User Research", "Wireframing"]
-    }
-  ];
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredInternships, setFilteredInternships] =
-    useState(allInternships);
-
-  // Search logic
+  /* SEARCH */
   const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase();
+
+    const term =
+      e.target.value.toLowerCase();
+
     setSearchTerm(term);
 
     if (!term) {
-      setFilteredInternships(allInternships);
-    } else {
-      const filtered = allInternships.filter((internship) =>
-        internship.title.toLowerCase().includes(term) ||
-        internship.company.toLowerCase().includes(term) ||
-        internship.skills.some((skill) =>
-          skill.toLowerCase().includes(term)
-        )
+
+      setFilteredInternships(
+        allInternships
       );
 
+    } else {
+
+      const filtered =
+        allInternships.filter(
+          internship =>
+
+            internship.title
+              ?.toLowerCase()
+              .includes(term) ||
+
+            internship.company
+              ?.toLowerCase()
+              .includes(term) ||
+
+            internship.skills?.some(
+              skill =>
+                skill
+                  .toLowerCase()
+                  .includes(term)
+            )
+        );
+
       setFilteredInternships(filtered);
+
     }
   };
 
   return (
+
     <div className="browse-container">
+
       <div className="browse-content-left">
 
-        {/* TITLE */}
+        {/* HERO */}
         <div className="page-title-left">
-          <h2>Browse Internships</h2>
-          <p>Discover opportunities across India</p>
+
+          <h2>
+            Browse Internships
+          </h2>
+
+          <p>
+            Discover opportunities
+            across India
+          </p>
 
           {userSkills.length > 0 && (
-            <p><strong>Your skills:</strong> {userSkills.join(", ")}</p>
+            <p>
+              <strong>
+                Your skills:
+              </strong>{" "}
+              {userSkills.join(", ")}
+            </p>
           )}
+
         </div>
 
         {/* SEARCH */}
         <div className="search-section-left">
+
           <input
             type="text"
             placeholder="Search internships..."
@@ -166,65 +230,182 @@ const BrowseInternships = () => {
             onChange={handleSearch}
             className="search-input-left"
           />
+
         </div>
 
         {/* RESULTS */}
         <div className="results-info-left">
-          <h3>{filteredInternships.length} Internships Found</h3>
+
+          <h3>
+            {
+              filteredInternships.length
+            }{" "}
+            Internships Found
+          </h3>
+
         </div>
 
-        {/* LIST */}
+        {/* INTERNSHIP LIST */}
         <div className="internships-list-left">
+
           {filteredInternships.length === 0 ? (
+
             <p>No results found</p>
+
           ) : (
-            filteredInternships.map((internship) => {
-              const missingSkills = getMissingSkills(internship.skills);
 
-              return (
-                <div key={internship.id} className="internship-item-left">
-                  <h3>
-                    {internship.title}{" "}
-                    <span>{internship.match}% Match</span>
-                  </h3>
+            filteredInternships
+              .slice(0, visibleCount)
+              .map((internship) => {
 
-                  <p>{internship.company}</p>
-                  <p>{internship.location}</p>
-                  <p>{internship.description}</p>
+                const missingSkills =
+                  getMissingSkills(
+                    internship.skills
+                  );
 
-                  {/* SKILLS */}
-                  <div>
-                    {internship.skills.map((skill, i) => (
-                      <span key={i}>
-                        {skill} {hasSkill(skill) ? "✓" : "✗"}
+                return (
+
+                  <div
+                    key={internship.id}
+                    className="internship-item-left"
+                  >
+
+                    {/* TOP */}
+                    <div className="card-top">
+
+                      <h3>
+                        {internship.title}
+                      </h3>
+
+                      <span className="match-tag">
+                        {
+                          internship.match
+                        }% Match
                       </span>
-                    ))}
-                  </div>
 
-                  {/* MISSING */}
-                  {missingSkills.length > 0 && (
-                    <p>Missing: {missingSkills.join(", ")}</p>
-                  )}
+                    </div>
 
-                  {/* BUTTONS */}
-                  <div>
-                    <button>Apply</button>
-                    <button>View</button>
+                    <p className="company-name">
+                      {internship.company}
+                    </p>
+
+                    <p className="location">
+                      📍{" "}
+                      {internship.location}
+                    </p>
+
+                    <p className="duration">
+                      ⏳{" "}
+                      {internship.duration}
+                    </p>
+
+                    <p className="salary">
+                      💰{" "}
+                      {internship.salary}
+                    </p>
+
+                    <p className="apply-by">
+                      📅 Apply By:{" "}
+                      {
+                        internship.applyBy
+                      }
+                    </p>
+
+                    <p className="description">
+                      {
+                        internship.description
+                      }
+                    </p>
+
+                    {/* SKILLS */}
+                    <div className="skills-wrapper">
+
+                      {internship.skills.map(
+                        (skill, i) => (
+
+                          <span
+                            key={i}
+                            className={
+                              hasSkill(skill)
+                                ? "skill-have"
+                                : "skill-missing"
+                            }
+                          >
+
+                            {skill}{" "}
+
+                            {hasSkill(skill)
+                              ? "✓"
+                              : "✗"}
+
+                          </span>
+                        )
+                      )}
+
+                    </div>
+
+                    {/* MISSING */}
+                    {missingSkills.length >
+                      0 && (
+
+                      <p className="missing-text">
+
+                        Missing:{" "}
+
+                        {
+                          missingSkills.join(
+                            ", "
+                          )
+                        }
+
+                      </p>
+
+                    )}
+
+                    {/* BUTTONS */}
+                    <div className="card-buttons">
+
+                      <button>
+                        Apply
+                      </button>
+
+                      <button>
+                        View
+                      </button>
+
+                    </div>
+
                   </div>
-                </div>
-              );
-            })
+                );
+              })
           )}
+
         </div>
 
-        {/* CTA */}
-        <div className="start-journey-section-left">
-          <Link to="/dashboard" className="start-btn">
-            Go to Dashboard →
-          </Link>
-        </div>
+        {/* VIEW MORE */}
+        {visibleCount <
+          filteredInternships.length && (
+
+          <div className="view-more-section">
+
+            <button
+              className="view-more-btn"
+              onClick={() =>
+                setVisibleCount(
+                  filteredInternships.length
+                )
+              }
+            >
+
+              View More Internships
+
+            </button>
+
+          </div>
+        )}
 
       </div>
+
     </div>
   );
 };

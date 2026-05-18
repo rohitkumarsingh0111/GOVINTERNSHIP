@@ -1,0 +1,41 @@
+id,title,company,location,description,required_skills,duration,applyBy,type,salary
+1,AI Research Intern,Smart Solutions,Kolkata,"Research AI systems and NLP models.","Python, Transformers, AWS, Docker",6 Months,Dec 25 2025,Remote,₹25000/month
+2,Frontend Developer Intern,TechNova,Mumbai,"Build responsive web interfaces.","React, JavaScript, CSS, HTML",3 Months,Jan 10 2025,Full-time,₹18000/month
+3,Backend Developer Intern,CodeCraft,Bangalore,"Develop backend APIs and databases.","Node.js, Express, MongoDB, REST API",6 Months,Jan 15 2025,Remote,₹22000/month
+4,Graphic Design Intern,Creative Pixel,Delhi,"Create branding and social media creatives.","Photoshop, Illustrator, Canva, Creativity",4 Months,Jan 20 2025,Part-time,₹15000/month
+5,HR Intern,PeopleFirst,Pune,"Assist in recruitment and onboarding processes.","Communication, HR Management, MS Excel",3 Months,Feb 01 2025,Hybrid,₹14000/month
+6,Content Writing Intern,MediaBuzz,Chennai,"Write blogs and marketing content.","Writing, SEO, Research, Creativity",4 Months,Jan 30 2025,Remote,₹12000/month
+7,Cybersecurity Intern,SecureTech,Noida,"Assist in security testing and monitoring.","Networking, Kali Linux, Python",6 Months,Feb 10 2025,Full-time,₹23000/month
+8,Sales Intern,MarketEdge,Ahmedabad,"Generate leads and manage client outreach.","Communication, Sales, CRM",3 Months,Jan 18 2025,Part-time,₹13000/month
+9,Digital Marketing Intern,Brandify,Gurgaon,"Manage SEO and social campaigns.","SEO, Social Media, Analytics",5 Months,Feb 15 2025,Hybrid,₹17000/month
+10,Mobile App Developer Intern,Appify,Hyderabad,"Develop Android and iOS applications.","Flutter, Firebase, Dart",4 Months,Feb 20 2025,Remote,₹21000/month
+11,Machine Learning Intern,DeepVision,Kolkata,"Train machine learning models.","Python, TensorFlow, ML, Data Science",6 Months,Mar 01 2025,Remote,₹28000/month
+12,Operations Intern,LogiFlow,Mumbai,"Manage operational workflows and logistics.","Operations, Excel, Coordination",4 Months,Mar 05 2025,Full-time,₹16000/month
+13,Business Analyst Intern,InsightCorp,Bangalore,"Analyze business data and reports.","Excel, SQL, Analytics",5 Months,Mar 10 2025,Hybrid,₹19000/month
+14,UI UX Design Intern,DesignHub,Pune,"Design user-friendly interfaces.","Figma, Adobe XD, Wireframing",3 Months,Mar 12 2025,Part-time,₹18000/month
+15,Finance Intern,FinServe,Delhi,"Assist in budgeting and financial analysis.","Finance, Excel, Accounting",4 Months,Mar 15 2025,Full-time,₹20000/month
+16,Software Engineer Intern,NextGen Tech,Chennai,"Develop scalable software applications.","Java, Spring Boot, SQL",6 Months,Mar 18 2025,Hybrid,₹24000/month
+17,Product Management Intern,Visionary Labs,Noida,"Assist product managers in planning features.","Agile, Communication, Product Management",5 Months,Mar 20 2025,Remote,₹22000/month
+18,SEO Intern,SearchBoost,Gurgaon,"Improve website search rankings.","SEO, Google Analytics, Marketing",3 Months,Mar 25 2025,Part-time,₹14000/month
+19,Cloud Computing Intern,CloudNet,Ahmedabad,"Work on cloud deployments and infrastructure.","AWS, Docker, Kubernetes",6 Months,Apr 01 2025,Hybrid,₹26000/month
+20,Event Management Intern,Eventify,Jaipur,"Coordinate corporate and college events.","Communication, Planning, Coordination",3 Months,Apr 05 2025,Full-time,₹15000/month
+21,Public Relations Intern,MediaLink,Kolkata,"Handle media communication and outreach.","PR, Communication, Networking",4 Months,Apr 10 2025,Hybrid,₹16000/month
+22,Android Developer Intern,MobileTech,Mumbai,"Build Android mobile apps.","Kotlin, Firebase, Android Studio",5 Months,Apr 15 2025,Remote,₹22000/month
+23,Customer Support Intern,HelpDesk,Bangalore,"Assist customers and resolve issues.","Communication, CRM, Problem Solving",3 Months,Apr 18 2025,Full-time,₹14000/month
+24,Blockchain Intern,CryptoVerse,Pune,"Develop blockchain smart contracts.","Solidity, Ethereum, Web3",6 Months,Apr 20 2025,Remote,₹30000/month
+25,Research Intern,ThinkTank,Delhi,"Conduct academic and market research.","Research, Analysis, Writing",4 Months,Apr 25 2025,Part-time,₹15000/month
+26,Video Editing Intern,VisualCraft,Noida,"Edit reels and marketing videos.","Premiere Pro, After Effects, Creativity",3 Months,May 01 2025,Hybrid,₹17000/month
+27,Data Science Intern,Insight AI,Gurgaon,"Analyze business datasets.","Python, Pandas, SQL",5 Months,May 05 2025,Full-time,₹24000/month
+28,Legal Intern,LawBridge,Hyderabad,"Assist legal teams with documentation.","Legal Research, Drafting, Communication",4 Months,May 08 2025,Part-time,₹18000/month
+29,Game Development Intern,PixelPlay,Chennai,"Develop Unity-based games.","Unity, C#, Blender",6 Months,May 10 2025,Remote,₹25000/month
+30,Social Media Intern,TrendBuzz,Ahmedabad,"Create and manage social content.","Instagram, Canva, Creativity",3 Months,May 12 2025,Hybrid,₹13000/month
+31,Supply Chain Intern,MoveFast,Kolkata,"Assist in supply chain optimization.","Excel, Logistics, Communication",4 Months,May 15 2025,Full-time,₹17000/month
+32,Frontend Developer Intern,UIFlow,Mumbai,"Create responsive websites.","React, CSS, APIs",4 Months,May 18 2025,Remote,₹21000/month
+33,Teacher Assistant Intern,EduSpark,Bangalore,"Support online teaching activities.","Teaching, Communication, MS Office",3 Months,May 20 2025,Part-time,₹12000/month
+34,Cybersecurity Intern,CyberSafe,Pune,"Monitor enterprise security systems.","Ethical Hacking, Networking, Python",6 Months,May 22 2025,Hybrid,₹26000/month
+35,Recruitment Intern,TalentBridge,Delhi,"Source and screen candidates.","HR, Communication, LinkedIn",4 Months,May 25 2025,Full-time,₹15000/month
+36,Photography Intern,LensCraft,Noida,"Capture and edit brand photos.","Photography, Lightroom, Creativity",3 Months,Jun 01 2025,Part-time,₹14000/month
+37,Software Testing Intern,TestPro,Gurgaon,"Perform software QA testing.","Selenium, Java, Testing",5 Months,Jun 05 2025,Hybrid,₹20000/month
+38,NGO Intern,HelpingHands,Jaipur,"Assist social welfare initiatives.","Communication, Teamwork, Outreach",3 Months,Jun 08 2025,Full-time,₹10000/month
+39,Machine Learning Intern,SmartAI,Hyderabad,"Develop predictive AI models.","Python, TensorFlow, ML",6 Months,Jun 10 2025,Remote,₹29000/month
+40,Fashion Design Intern,StyleHub,Chennai,"Assist in clothing and fashion design.","Fashion Design, Sketching, Creativity",4 Months,Jun 12 2025,Part-time,₹16000/month
