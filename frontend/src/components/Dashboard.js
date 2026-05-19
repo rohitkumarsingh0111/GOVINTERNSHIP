@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
+import Footer from "./Footer";
 
   const Dashboard = () => {
   const { user } = useContext(UserContext);
@@ -277,6 +278,7 @@ import "./Dashboard.css";
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

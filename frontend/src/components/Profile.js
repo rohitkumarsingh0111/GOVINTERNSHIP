@@ -3,6 +3,7 @@ import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
+import Footer from "./Footer";
 
 // Profile completion calculation function
 const calculateProfileCompletion = (profileData) => {
@@ -1183,6 +1184,7 @@ const Profile = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

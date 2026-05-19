@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import "./BrowseInternship.css";
+import Footer from "./Footer";
 
 const BrowseInternships = () => {
 
@@ -405,7 +406,7 @@ const BrowseInternships = () => {
         )}
 
       </div>
-
+      <Footer/>
     </div>
   );
 };
